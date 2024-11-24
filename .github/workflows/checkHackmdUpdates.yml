@@ -2,8 +2,8 @@ name: Check HackMD Updates
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # execute per day
-  workflow_dispatch:  # can manual execute
+    - cron: '0 12 * * *' # execute per day at 20:00 UTC+8
+  workflow_dispatch: # can manual execute
 
 jobs:
   check_updates:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # make sure we have entire history
+          fetch-depth: 0 # make sure we have entire history
           token: ${{ secrets.PAT }}
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -28,7 +28,7 @@ jobs:
           HACKMD_API_KEY: ${{ secrets.HACKMD_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: python checkHackmdUpdates.py
-  
+
       - name: Commit and push if changed
         run: |
           git config --global user.name 'github-actions[bot]'
